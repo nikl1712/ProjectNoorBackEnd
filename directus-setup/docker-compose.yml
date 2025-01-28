@@ -12,5 +12,5 @@ services:
     environment:
       DB_CLIENT: "sqlite3"
       DB_FILENAME: "./data.db"
-      ADMIN_EMAIL: "y.bekri@project-noor.eu"
+      ADMIN_EMAIL: "admin@project-noor.eu"
       ADMIN_PASSWORD: "Frikadell3"
