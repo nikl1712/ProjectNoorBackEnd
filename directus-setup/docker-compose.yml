@@ -1,0 +1,16 @@
+version: '3'
+services:
+  directus:
+    build:
+      context: /Users/yassinebekri/ProjectNoorBackEnd/directus-setup/
+    container_name: projectnoor-directus
+    ports:
+      - "8055:8055"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./extensions:/app/extensions
+    environment:
+      DB_CLIENT: "sqlite3"
+      DB_FILENAME: "./data.db"
+      ADMIN_EMAIL: "y.bekri@project-noor.eu"
+      ADMIN_PASSWORD: "Frikadell3"
