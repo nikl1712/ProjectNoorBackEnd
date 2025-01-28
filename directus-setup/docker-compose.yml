@@ -2,7 +2,8 @@ version: '3'
 services:
   directus:
     build:
-      context: /Users/yassinebekri/ProjectNoorBackEnd/directus-setup/
+      
+      dockerfile: Dockerfile
     container_name: projectnoor-directus
     ports:
       - "8055:8055"
