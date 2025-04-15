@@ -1,0 +1,5 @@
+commands for updating Docker:
+1. docker build -t directus-backend .
+2. docker tag directus-backend europe-west3-docker.pkg.dev/celtic-descent-456211-d2/directus-backend/directus-backend:latest
+3. docker push europe-west3-docker.pkg.dev/celtic-descent-456211-d2/directus-backend/directus-backend:latest
+4. gcloud run deploy directus-backend --image europe-west3-docker.pkg.dev/celtic-descent-456211-d2/directus-backend/directus-backend:latest --platform managed --region europe-west3 --allow-unauthenticated
