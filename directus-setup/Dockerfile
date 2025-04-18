@@ -14,13 +14,20 @@ COPY . .
 # Expose the port that Directus will listen on
 EXPOSE 8055
 
-# Set environment variables if needed (you can also set these in Cloud Run)
+# ─── Enable and configure CORS ─────────────────────────────────────────
 ENV CORS_ENABLED=true
+# Either echo back every incoming Origin:
+ENV CORS_ORIGIN=true
+# —or— lock it down to your frontend domain:
+# ENV CORS_ORIGIN="https://projectnoorvocational-564292521955.europe-west3.run.app"
+
+# (Optional: only if you need custom methods or headers)
+ENV CORS_METHODS="GET,POST,PATCH,DELETE"
+ENV CORS_ALLOWED_HEADERS="Content-Type,Authorization"
+# ───────────────────────────────────────────────────────────────────────
+
 ENV DB_CLIENT=sqlite3
 ENV DB_FILENAME=/app/data.db
-ENV CORS_ALLOWED_ORIGINS="https://projectnoorvocational-564292521955.europe-west3.run.app"
 ENV PUBLIC_URL="https://projectnoorbackend-564292521955.europe-west3.run.app"
-# Update this after deployment
 
-# Start Directus (adjust the start command if your setup differs)
 CMD ["npx", "directus", "start"]
