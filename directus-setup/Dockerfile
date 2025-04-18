@@ -15,6 +15,7 @@ COPY . .
 EXPOSE 8055
 
 # Set environment variables if needed (you can also set these in Cloud Run)
+ENV CORS_ENABLED=true
 ENV DB_CLIENT=sqlite3
 ENV DB_FILENAME=/app/data.db
 ENV CORS_ALLOWED_ORIGINS="https://military-frontend-1023525350254.europe-west3.run.app,https://vocational-frontend-1023525350254.europe-west3.run.app,https://projectnoorvocational-564292521955.europe-west3.run.app"
