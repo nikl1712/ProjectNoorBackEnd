@@ -18,7 +18,7 @@ EXPOSE 8055
 ENV CORS_ENABLED=true
 ENV DB_CLIENT=sqlite3
 ENV DB_FILENAME=/app/data.db
-ENV CORS_ALLOWED_ORIGINS="https://military-frontend-1023525350254.europe-west3.run.app,https://vocational-frontend-1023525350254.europe-west3.run.app,https://projectnoorvocational-564292521955.europe-west3.run.app"
+ENV CORS_ALLOWED_ORIGINS="https://projectnoorvocational-564292521955.europe-west3.run.app"
 ENV PUBLIC_URL="https://projectnoorbackend-564292521955.europe-west3.run.app"
 # Update this after deployment
 
