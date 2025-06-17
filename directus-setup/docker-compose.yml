@@ -12,6 +12,6 @@ services:
       - ./extensions:/app/extensions
     environment:
       DB_CLIENT: "sqlite3"
-      DB_FILENAME: "/data/data.db"
+      DB_FILENAME: "/data/data(1).db"
       ADMIN_EMAIL: "admin@project-noor.eu"
       ADMIN_PASSWORD: "Frikadell3"

@@ -27,7 +27,7 @@ ENV CORS_ALLOWED_HEADERS="Content-Type,Authorization"
 # ───────────────────────────────────────────────────────────────────────
 
 ENV DB_CLIENT=sqlite3
-ENV DB_FILENAME="/data/data.db"
+ENV DB_FILENAME="/data/data(1).db"
 ENV PUBLIC_URL="https://projectnoorbackend-564292521955.europe-west3.run.app"
 
 CMD ["npx", "directus", "start"]
