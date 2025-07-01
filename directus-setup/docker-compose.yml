@@ -2,17 +2,44 @@ version: '3'
 services:
   directus:
     build:
-      
       dockerfile: Dockerfile
     container_name: projectnoor-directus
+    restart: always
     ports:
       - "8055:8055"
     volumes:
       - ./data:/app/data 
       - ./uploads:/app/uploads
       - ./extensions:/app/extensions
+    depends_on:
+      - cloud-sql-proxy
     environment:
-      DB_CLIENT: "sqlite3"
-      DB_FILENAME: "/data/niksdb.db"
+      # --- SCHLÜSSEL FÜR SICHERHEIT (WICHTIG) ---
+      KEY: "a-very-random-and-long-key"
+      SECRET: "another-very-random-and-long-secret"
+
+      # --- DATENBANK-KONFIGURATION (VON IHRER FUNKTIONIERENDEN DATEI ÜBERNOMMEN) ---
+      DB_CLIENT: "pg"
+      DB_HOST: "cloud-sql-proxy"
+      DB_PORT: "5432"
+      DB_USER: "postgres"
+      DB_PASSWORD: "Frikadell3"
+      DB_DATABASE: "directus" # Wir hatten uns auf 'directus' als DB-Namen geeinigt
+
+      # --- ADMIN-ZUGANG (VON IHRER DEVELOPMENT-DATEI ÜBERNOMMEN) ---
       ADMIN_EMAIL: "admin@project-noor.eu"
       ADMIN_PASSWORD: "Frikadell3"
+
+  cloud-sql-proxy:
+    image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.10.0
+    container_name: projectnoor-proxy
+    restart: always
+    command:
+      - "--address=0.0.0.0"
+      # --- VERBINDUNGSNAME (VON IHRER FUNKTIONIERENDEN DATEI ÜBERNOMMEN) ---
+      - "basic-buttress-459910-j7:europe-west3:postgres"
+      - "--credentials-file=/config/gcloud-service-account.json"
+      - "--port=5432"
+    volumes:
+      # --- SCHLÜSSELDATEI (VON IHRER FUNKTIONIERENDEN DATEI ÜBERNOMMEN) ---
+      - ./gcloud-service-account.json:/config/gcloud-service-account.json:ro
