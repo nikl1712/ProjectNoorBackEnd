@@ -14,19 +14,11 @@ COPY . .
 # Expose the port that Directus will listen on
 EXPOSE 8055
 
-# ─── Enable and configure CORS ─────────────────────────────────────────
+# --- CORS und andere Einstellungen ---
 ENV CORS_ENABLED=true
-# Either echo back every incoming Origin:
 ENV CORS_ORIGIN=true
-# —or— lock it down to your frontend domain:
-# ENV CORS_ORIGIN="https://projectnoorvocational-564292521955.europe-west3.run.app"
-
-# (Optional: only if you need custom methods or headers)
-ENV CORS_METHODS="GET,POST,PATCH,DELETE"
-ENV CORS_ALLOWED_HEADERS="Content-Type,Authorization"
-# ───────────────────────────────────────────────────────────────────────
-
-
 ENV PUBLIC_URL="https://projectnoorbackend-564292521955.europe-west3.run.app"
 
+# Der CMD-Befehl startet Directus.
+# Directus wird automatisch auf dem von Cloud Run vorgegebenen PORT lauschen.
 CMD ["npx", "directus", "start"]
