@@ -26,8 +26,7 @@ ENV CORS_METHODS="GET,POST,PATCH,DELETE"
 ENV CORS_ALLOWED_HEADERS="Content-Type,Authorization"
 # ───────────────────────────────────────────────────────────────────────
 
-ENV DB_CLIENT=sqlite3
-ENV DB_FILENAME="/data/niksdb.db"
+
 ENV PUBLIC_URL="https://projectnoorbackend-564292521955.europe-west3.run.app"
 
 CMD ["npx", "directus", "start"]
