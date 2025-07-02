@@ -11,13 +11,11 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Expose the port that Directus will listen on
-EXPOSE 8055
-
 # --- CORS und andere Einstellungen ---
+# Diese werden besser direkt in Cloud Run gesetzt
 ENV CORS_ENABLED=true
 ENV CORS_ORIGIN=true
-ENV PUBLIC_URL="https://projectnoorbackend-564292521955.europe-west3.run.app"
+ENV PUBLIC_URL="https://project-noor-backend-168591294204.europe-west3.run.app"
 
 # Der CMD-Befehl startet Directus.
 # Directus wird automatisch auf dem von Cloud Run vorgegebenen PORT lauschen.
