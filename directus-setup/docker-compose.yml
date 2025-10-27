@@ -1,45 +1,66 @@
-version: '3'
+version: '3.8'
+
 services:
+  # --- Directus (deine App) ---
   directus:
     build:
+      context: .  # <-- DIESE ZEILE WURDE HINZUGEFÜGT. Sie fehlte.
       dockerfile: Dockerfile
     container_name: projectnoor-directus
     restart: always
     ports:
-      - "8055:8055"
+      - "8055:8055" # Port 8055 der VM wird auf Port 8055 des Containers gemappt
     volumes:
       - ./data:/app/data 
       - ./uploads:/app/uploads
       - ./extensions:/app/extensions
     depends_on:
-      - cloud-sql-proxy
+      - db # Hängt jetzt vom 'db'-Service ab, nicht mehr vom Proxy
+    networks:
+      - projectnoor-netzwerk
     environment:
-      # --- SCHLÜSSEL FÜR SICHERHEIT (WICHTIG) ---
-      KEY: "a-very-random-and-long-key"
-      SECRET: "another-very-random-and-long-secret"
+      # --- SCHLÜSSEL (unverändert) ---
+      KEY: "a-very-random-and-long-key" # Ändere dies zu etwas Eigenem!
+      SECRET: "another-very-random-and-long-secret" # Ändere dies auch!
 
-      # --- DATENBANK-KONFIGURATION (VON IHRER FUNKTIONIERENDEN DATEI ÜBERNOMMEN) ---
+      # --- DATENBANK-KONFIGURATION (Angepasst für den Docker-DB-Container) ---
       DB_CLIENT: "pg"
-      DB_HOST: "cloud-sql-proxy"
+      DB_HOST: "db" # <-- WICHTIG: Zeigt jetzt auf den Service-Namen 'db'
       DB_PORT: "5432"
       DB_USER: "postgres"
       DB_PASSWORD: "Frikadell3"
-      DB_DATABASE: "directus" # Wir hatten uns auf 'directus' als DB-Namen geeinigt
+      DB_DATABASE: "directus"
 
-      # --- ADMIN-ZUGANG (VON IHRER DEVELOPMENT-DATEI ÜBERNOMMEN) ---
+      # --- ADMIN-ZUGANG (unverändert) ---
       ADMIN_EMAIL: "admin@project-noor.eu"
       ADMIN_PASSWORD: "Frikadell3"
+      
+      # --- PUBLIC_URL (WICHTIG!) ---
+      # Setze hier die öffentliche IP deiner Oracle VM ein
+      PUBLIC_URL: "http://DEINE_OEFFENTLICHE_IP:8055" 
 
-  cloud-sql-proxy:
-    image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.10.0
-    container_name: projectnoor-proxy
+  # --- Neue PostgreSQL-Datenbank als Container ---
+  db:
+    image: postgres:15-alpine # Ein schlankes Postgres-Image
+    container_name: projectnoor-db
     restart: always
-    command:
-      - "--address=0.0.0.0"
-      # --- VERBINDUNGSNAME (VON IHRER FUNKTIONIERENDEN DATEI ÜBERNOMMEN) ---
-      - "basic-buttress-459910-j7:europe-west3:postgres"
-      - "--credentials-file=/config/gcloud-service-account.json"
-      - "--port=5432"
+    networks:
+      - projectnoor-netzwerk
+    environment:
+      # Diese Zugangsdaten müssen mit den DB_... Variablen von directus übereinstimmen
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "Frikadell3"
+      POSTGRES_DB: "directus"
     volumes:
-      # --- SCHLÜSSELDATEI (VON IHRER FUNKTIONIERENDEN DATEI ÜBERNOMMEN) ---
-      - ./gcloud-service-account.json:/config/gcloud-service-account.json:ro
+      # Sorgt dafür, dass die Datenbankdaten auf der VM gespeichert bleiben (persistent)
+      - postgres_data:/var/lib/postgresql/data
+    # Du brauchst die Ports der DB nicht nach außen freigeben,
+    # da die Container direkt über das Docker-Netzwerk sprechen.
+
+# --- Docker Volumes und Netzwerke definieren ---
+volumes:
+  postgres_data: # Hier werden die DB-Daten gespeichert
+
+networks:
+  projectnoor-netzwerk:
+    driver: bridge
