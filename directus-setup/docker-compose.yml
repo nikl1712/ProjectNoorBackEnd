@@ -37,7 +37,7 @@ services:
       
       # --- PUBLIC_URL (WICHTIG!) ---
       # Setze hier die öffentliche IP deiner Oracle VM ein
-      PUBLIC_URL: "http://DEINE_OEFFENTLICHE_IP:8055" 
+      PUBLIC_URL: "http://129.159.199.103:8055" 
 
   # --- Neue PostgreSQL-Datenbank als Container ---
   db:
