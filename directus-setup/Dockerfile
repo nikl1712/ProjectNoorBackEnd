@@ -18,7 +18,7 @@ ENV SECRET="a-much-better-secret-key-that-is-long-and-random-98765"
 
 # 2. Database configuration (using the sqlite file from your repo)
 ENV DB_CLIENT="sqlite3"
-ENV DB_FILENAME="/directus-setup/data/niksdb.db"
+ENV DB_FILENAME="/app/data/niksdb.db"
 
 # --- Cloud Run Port Configuration ---
 # These are correct from the last attempt
